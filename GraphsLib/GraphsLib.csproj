@@ -51,7 +51,7 @@
     <Compile Include="PackedGraph.cs" />
     <Compile Include="Link.cs" />
     <Compile Include="Node.cs" />
-    <Compile Include="PathFinder.cs" />
+    <Compile Include="Algorithms.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

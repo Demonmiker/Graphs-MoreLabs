@@ -1,6 +1,6 @@
 ﻿namespace GraphsTest
 {
-    partial class Form1
+    partial class GraphForm
     {
         /// <summary>
         /// Обязательная переменная конструктора.
