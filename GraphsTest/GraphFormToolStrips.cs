@@ -15,6 +15,9 @@ namespace GraphsTest
 {
     partial class GraphForm
     {
+        bool ToolDoubleLink = false;
+        bool ViewHasWeight = true;
+
         #region ToolStrips
 
         #region Context

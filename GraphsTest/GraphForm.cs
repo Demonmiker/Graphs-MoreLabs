@@ -20,9 +20,8 @@ namespace GraphsTest
     {
 
         #region BoolUI
-        bool ToolDoubleLink = false;
-        bool ViewHasWeight = true;
-
+        
+        int Max = 50;
         #endregion
         // Fields
         Graph MainGraph = new Graph();
@@ -38,7 +37,7 @@ namespace GraphsTest
             Render.Start();
         }
 
-        int Max = 50;
+       
 
 
 
@@ -61,6 +60,13 @@ namespace GraphsTest
             return null;
         }
 
+        
+        public PointF[] GetTriangle(Node n1,Node n2)
+        {
+            GraphicsExtension.GetTriangle(n1,n2,TWidth,TLength,u);
+            return GraphicsExtension.UI;
+        }
+
         public Link SearchLinks(Point pm)
         {
             PointF[] UI = new PointF[3];
@@ -68,16 +74,7 @@ namespace GraphsTest
             {
                 foreach(Link l in n.Links)
                 {
-                    Point p = new Point((int)(n.UIPos.X + (l.To.UIPos.X - n.UIPos.X) * u),(int)( n.UIPos.Y + (l.To.UIPos.Y - n.UIPos.Y) * u));
-                    double d = GraphForm.Distance(n.UIPos, l.To.UIPos);
-                    PointF nVector = new PointF();
-                    nVector.X = (float)((l.To.UIPos.X - n.UIPos.X) / d);
-                    nVector.Y = (float)((l.To.UIPos.Y - n.UIPos.Y) / d);
-                    UI[0] = new PointF((p.X + nVector.X * TLength), (p.Y + nVector.Y * TLength));
-                    UI[1] = new PointF((p.X + nVector.Y * TWidth), (p.Y + -nVector.X * TWidth));
-                    UI[2] = new PointF((p.X + -nVector.Y * TWidth), (p.Y + nVector.X * TWidth));
-                    
-                    if (InTriangle(UI[0], UI[1], UI[2], pm))
+                    if (InTriangle(GetTriangle(n, l.To), pm))
                         return l;
                 }
             }
@@ -92,11 +89,11 @@ namespace GraphsTest
             return Math.Sqrt(dx * dx + dy * dy);
         }
 
-        public bool InTriangle(PointF p1,PointF p2,PointF p3,PointF p)
+        public bool InTriangle(PointF[] tri,PointF p)
         {
-            float a = (p1.X - p.X) * (p2.Y - p1.Y) - (p2.X - p1.X) * (p1.Y - p.Y);
-            float b = (p2.X - p.X) * (p3.Y - p2.Y) - (p3.X - p2.X) * (p2.Y - p.Y);
-            float c = (p3.X - p.X) * (p1.Y - p3.Y) - (p1.X - p3.X) * (p3.Y - p.Y);
+            float a = (tri[0].X - p.X) * (tri[1].Y - tri[0].Y) - (tri[1].X - tri[0].X) * (tri[0].Y - p.Y);
+            float b = (tri[1].X - p.X) * (tri[2].Y - tri[1].Y) - (tri[2].X - tri[1].X) * (tri[1].Y - p.Y);
+            float c = (tri[2].X - p.X) * (tri[0].Y - tri[2].Y) - (tri[0].X - tri[2].X) * (tri[2].Y - p.Y);
             if ((a > 0 && b > 0 && c > 0) || (a < 0 && b < 0 && c < 0))
                 return true;
             return false;

@@ -17,9 +17,9 @@ namespace GraphsTest
     partial class GraphForm
     {
         #region RenderConstants - Константы рендера
-        const int TLength = 15;
-        const int TWidth = 10;
-        const double u = 0.6;
+        const int TLength = 20;
+        const int TWidth = 15;
+        const double u = 0.5;
         int NodeSize = 50;
         Bitmap ImgNode = Resource1.Node;
         Bitmap ImgNode2 = Resource1.Node2;
@@ -101,11 +101,18 @@ namespace GraphsTest
             foreach (Node n in MainGraph.Nodes)
                 foreach (Link l in n.Links)
                 {
-                    g.DrawTip(n, l.To);
-                    int x = (int)((l.To.UIPos.X - n.UIPos.X) * (u));
-                    int y = (int)((l.To.UIPos.Y - n.UIPos.Y) * (u));
+                    
+                    g.DrawTip(n, l.To,TLength,TWidth,u);
+                    //
+                    double d = GraphForm.Distance(n.UIPos, l.To.UIPos);
+                    double u2 = u - TLength / (d*5);
+                    GraphicsExtension.GetPoint(n, l.To, u2);
+                    //
                     if (ViewHasWeight)
-                        g.DrawString(l.Weight.ToString(), label1.Font, Brushes.Yellow, n.UIPos.X + x + 7 - g.MeasureString(n.Name, label1.Font).Width / 2, n.UIPos.Y + y + 7 - g.MeasureString(n.Name, this.Font).Height / 2);
+                        g.DrawString(l.Weight.ToString(), label1.Font, Brushes.Yellow, GraphicsExtension.pt.X - 4, GraphicsExtension.pt.Y - 6);
+                    //test
+                    //g.FillEllipse(Brushes.Purple, GraphicsExtension.pt.X, GraphicsExtension.pt.Y, 4, 4);
+                    //test
                 }
         }
 
