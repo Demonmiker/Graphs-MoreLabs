@@ -28,5 +28,13 @@ namespace GraphsLib
             Weight = W;
 
         }
+
+        public void Reverse()
+        {
+            Node temp;
+            temp = From;
+            From = To;
+            To = temp;
+        }
     }
 }

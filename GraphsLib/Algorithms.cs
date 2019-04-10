@@ -17,7 +17,7 @@ namespace GraphsLib
         public long Timer = 0;
     
  
-        public List<Node> FindPath(Node A,Node B,DijkstraMode DM = DijkstraMode.Default)
+        public List<Node>[] FindPath(Node A,Node B,DijkstraMode DM = DijkstraMode.Default)
         {
             //
             Stopwatch SW = new Stopwatch();
@@ -54,7 +54,7 @@ namespace GraphsLib
             }
             path.Add(Cur);
             Timer = SW.ElapsedMilliseconds;
-            return path;
+            return new List<Node>[] { path };
             
         }
 
@@ -156,6 +156,89 @@ namespace GraphsLib
 
 
 
+    }
+
+    public static class Algorithms
+    {
+        public enum Color
+        {
+            White,
+            Gray,
+            Black
+        }
+
+        static List<Node> curpath = new List<Node>();
+        static Dictionary<Node, Color> color = new Dictionary<Node, Color>();
+        public static List<Node>[] DoDFS(Graph G)
+        {
+            List<List<Node>> res = new List<List<Node>>();
+            
+           
+            foreach(Node n in G.Nodes)
+            {
+                color.Add(n, Color.White);
+            }
+
+            for (int i = 0; i < G.Nodes.Count; i++)
+            {
+                if(color[G.Nodes[i]] == Color.White)
+                {
+                    DFS(G.Nodes[i]);
+                    res.Add(curpath);
+                    curpath = new List<Node>();
+                }
+            }
+           
+            //
+            return res.ToArray();
+
+
+
+            
+            //
+           
+            
+        }
+        static void DFS(Node n)
+        {
+            color[n] = Color.Gray;
+            curpath.Add(n);
+            foreach (Link l in n.Links)
+            {
+                if (color[l.To] == Color.White)
+                {
+                    DFS(l.To);
+                }
+            }
+            color[n] = Color.Black;
+        }
+
+        public static List<Node>[] StrongConnection(Graph G)
+        {
+            List<List<Node>> res = new List<List<Node>>();
+            Graph H = G.GetReverse();
+            List<Node> f = new List<Node>();
+            List<Node>[] a = Algorithms.DoDFS(H);
+            foreach (List<Node> l in a)
+                f.AddRange(l);
+            color.Clear();
+            foreach (Node n in G.Nodes)
+            {
+                color.Add(n, Color.White);
+            }
+
+            for (int i =f.Count-1; i >= 0; i--)
+            {
+                if (color[G.GetNode(f[i].Name)] == Color.White)
+                {
+                    DFS(G.GetNode(f[i].Name));
+                    res.Add(curpath);
+                    curpath = new List<Node>();
+                }
+            }
+
+            return res.ToArray();
+        }
     }
 
 
