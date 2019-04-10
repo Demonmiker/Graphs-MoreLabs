@@ -26,7 +26,7 @@ namespace GraphsTest
         // Fields
         Graph MainGraph = new Graph();
 
-        List<Node>[] Pathes;
+        List<Node>[] Pathes = new List<Node>[0];
         List<Node> Path = new List<Node>();
         int pathindex;
        
@@ -129,6 +129,19 @@ namespace GraphsTest
             Pathes = Algorithms.DoDFS(MainGraph);
             pathindex = 0;
             Path = Pathes[0];
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Pathes = Algorithms.StrongConnection(MainGraph);
+            pathindex = 0;
+            Path = Pathes[0];
+            
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            MainGraph = MainGraph.GetReverse();
         }
     }
 }

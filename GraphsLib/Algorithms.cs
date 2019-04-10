@@ -167,11 +167,13 @@ namespace GraphsLib
             Black
         }
 
+        static List<Node> curpath = new List<Node>();
+        static Dictionary<Node, Color> color = new Dictionary<Node, Color>();
         public static List<Node>[] DoDFS(Graph G)
         {
             List<List<Node>> res = new List<List<Node>>();
-            List<Node> curpath = new List<Node>();
-            Dictionary<Node, Color> color = new Dictionary<Node, Color>();
+            
+           
             foreach(Node n in G.Nodes)
             {
                 color.Add(n, Color.White);
@@ -192,22 +194,50 @@ namespace GraphsLib
 
 
 
-            void DFS(Node n)
-            {
-                color[n] = Color.Gray;
-                curpath.Add(n);
-                foreach(Link l in n.Links)
-                {
-                    if(color[l.To]==Color.White)
-                    {
-                        DFS(l.To);
-                    }
-                }
-                color[n] = Color.Black;
-            }
+            
             //
            
             
+        }
+        static void DFS(Node n)
+        {
+            color[n] = Color.Gray;
+            curpath.Add(n);
+            foreach (Link l in n.Links)
+            {
+                if (color[l.To] == Color.White)
+                {
+                    DFS(l.To);
+                }
+            }
+            color[n] = Color.Black;
+        }
+
+        public static List<Node>[] StrongConnection(Graph G)
+        {
+            List<List<Node>> res = new List<List<Node>>();
+            Graph H = G.GetReverse();
+            List<Node> f = new List<Node>();
+            List<Node>[] a = Algorithms.DoDFS(H);
+            foreach (List<Node> l in a)
+                f.AddRange(l);
+            color.Clear();
+            foreach (Node n in G.Nodes)
+            {
+                color.Add(n, Color.White);
+            }
+
+            for (int i =f.Count-1; i >= 0; i--)
+            {
+                if (color[G.GetNode(f[i].Name)] == Color.White)
+                {
+                    DFS(G.GetNode(f[i].Name));
+                    res.Add(curpath);
+                    curpath = new List<Node>();
+                }
+            }
+
+            return res.ToArray();
         }
     }
 
