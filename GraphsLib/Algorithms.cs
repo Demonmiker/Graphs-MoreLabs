@@ -17,7 +17,7 @@ namespace GraphsLib
         public long Timer = 0;
     
  
-        public List<Node> FindPath(Node A,Node B,DijkstraMode DM = DijkstraMode.Default)
+        public List<Node>[] FindPath(Node A,Node B,DijkstraMode DM = DijkstraMode.Default)
         {
             //
             Stopwatch SW = new Stopwatch();
@@ -54,7 +54,7 @@ namespace GraphsLib
             }
             path.Add(Cur);
             Timer = SW.ElapsedMilliseconds;
-            return path;
+            return new List<Node>[] { path };
             
         }
 
@@ -156,6 +156,59 @@ namespace GraphsLib
 
 
 
+    }
+
+    public static class Algorithms
+    {
+        public enum Color
+        {
+            White,
+            Gray,
+            Black
+        }
+
+        public static List<Node>[] DoDFS(Graph G)
+        {
+            List<List<Node>> res = new List<List<Node>>();
+            List<Node> curpath = new List<Node>();
+            Dictionary<Node, Color> color = new Dictionary<Node, Color>();
+            foreach(Node n in G.Nodes)
+            {
+                color.Add(n, Color.White);
+            }
+
+            for (int i = 0; i < G.Nodes.Count; i++)
+            {
+                if(color[G.Nodes[i]] == Color.White)
+                {
+                    DFS(G.Nodes[i]);
+                    res.Add(curpath);
+                    curpath = new List<Node>();
+                }
+            }
+           
+            //
+            return res.ToArray();
+
+
+
+            void DFS(Node n)
+            {
+                color[n] = Color.Gray;
+                curpath.Add(n);
+                foreach(Link l in n.Links)
+                {
+                    if(color[l.To]==Color.White)
+                    {
+                        DFS(l.To);
+                    }
+                }
+                color[n] = Color.Black;
+            }
+            //
+           
+            
+        }
     }
 
 
