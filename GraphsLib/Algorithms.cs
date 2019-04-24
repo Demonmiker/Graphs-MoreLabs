@@ -239,6 +239,30 @@ namespace GraphsLib
 
             return res.ToArray();
         }
+
+        public static List<Node>[] BFS(Graph G,Node StartNode = null)
+        {
+            if(StartNode==null)
+                StartNode = G.Nodes[0];
+            //
+            List<Node> Result = new List<Node>();
+            Queue<Node> q = new Queue<Node>();
+            q.Enqueue(StartNode);
+            Dictionary<Node, int> mark = new Dictionary<Node, int>();
+            while(q.Count>0)
+            {
+                Node Cur = q.Dequeue();
+                mark.Add(Cur, 1); // тут можно в Value что нибдь записать
+                Result.Add(Cur);
+                foreach(Link l in Cur.Links)
+                {
+                    if (!mark.ContainsKey(l.To))
+                        q.Enqueue(l.To);
+                }
+            }
+            return new List<Node>[] { Result };
+
+        }
     }
 
 
