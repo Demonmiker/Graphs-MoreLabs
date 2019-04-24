@@ -239,6 +239,58 @@ namespace GraphsLib
 
             return res.ToArray();
         }
+
+        public static List<Node>[] BFS(Graph G,Node StartNode = null)
+        {
+            if(StartNode==null)
+                StartNode = G.Nodes[0];
+            //
+            List<Node> Result = new List<Node>();
+            Queue<Node> q = new Queue<Node>();
+            q.Enqueue(StartNode);
+            Dictionary<Node, int> mark = new Dictionary<Node, int>();
+            while(q.Count>0)
+            {
+                Node Cur = q.Dequeue();
+                mark.Add(Cur, 1); // тут можно в Value что нибдь записать
+                Result.Add(Cur);
+                foreach(Link l in Cur.Links)
+                {
+                    if (!mark.ContainsKey(l.To))
+                        q.Enqueue(l.To);
+                }
+            }
+            return new List<Node>[] { Result };
+
+        }
+
+        
+        public static List<Node>[] EulerCycle(Graph G)
+        {
+            Graph G2 = G.Clone() as Graph;
+            List<Node> Result = new List<Node>();
+            Stack<Node> St = new Stack<Node>();
+            St.Push(G2.Nodes[0]);
+            while(St.Count!=0)
+            {
+                Node V = St.Peek();
+                if(V.Links.Count + V.ToMe.Count==0)
+                {
+                    Result.Add(V);
+                    St.Pop();
+                }
+                else
+                {
+                    Link l = V.Links[0];
+                    V.Links.Remove(l);
+                    l.To.ToMe.Remove(l);
+                    St.Push(l.To);
+                    
+                }
+            }
+            return new List<Node>[]  { Result };
+
+        }
     }
 
 
