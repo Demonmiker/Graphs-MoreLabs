@@ -156,7 +156,8 @@ namespace GraphsTest
 
         private void button5_Click(object sender, EventArgs e)
         {
-
+            Pathes = Algorithms.EulerCycle(MainGraph);
+            ResetPathes();
         }
     }
 }
