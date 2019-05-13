@@ -25,9 +25,10 @@ namespace GraphsTest
         #endregion
         // Fields
         Graph MainGraph = new Graph();
-        
-       
+
+        List<Node>[] Pathes = new List<Node>[0];
         List<Node> Path = new List<Node>();
+        int pathindex;
        
         public GraphForm()
         {
@@ -105,5 +106,58 @@ namespace GraphsTest
         }
         #endregion
 
+        private void btn_Left_Click(object sender, EventArgs e)
+        {
+            if(pathindex>0)
+            {
+                pathindex--;
+                Path = Pathes[pathindex];
+            }
+        }
+
+        private void btn_Right_Click(object sender, EventArgs e)
+        {
+            if (pathindex < Pathes.Length-1)
+            {
+                pathindex++;
+                Path = Pathes[pathindex];
+            }
+        }
+
+        public void ResetPathes()
+        {
+            pathindex = 0;
+            Path = Pathes[0];
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Pathes = Algorithms.DoDFS(MainGraph);
+            ResetPathes();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Pathes = Algorithms.StrongConnection(MainGraph);
+            ResetPathes();
+
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            MainGraph = MainGraph.GetReverse();
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            Pathes = Algorithms.BFS(MainGraph);
+            ResetPathes();
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            Pathes = Algorithms.EulerCycle(MainGraph);
+            ResetPathes();
+        }
     }
 }

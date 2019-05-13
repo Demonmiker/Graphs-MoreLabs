@@ -17,7 +17,7 @@ namespace GraphsLib
         public long Timer = 0;
     
  
-        public List<Node> FindPath(Node A,Node B,DijkstraMode DM = DijkstraMode.Default)
+        public List<Node>[] FindPath(Node A,Node B,DijkstraMode DM = DijkstraMode.Default)
         {
             //
             Stopwatch SW = new Stopwatch();
@@ -54,7 +54,7 @@ namespace GraphsLib
             }
             path.Add(Cur);
             Timer = SW.ElapsedMilliseconds;
-            return path;
+            return new List<Node>[] { path };
             
         }
 
@@ -156,6 +156,141 @@ namespace GraphsLib
 
 
 
+    }
+
+    public static class Algorithms
+    {
+        public enum Color
+        {
+            White,
+            Gray,
+            Black
+        }
+
+        static List<Node> curpath = new List<Node>();
+        static Dictionary<Node, Color> color = new Dictionary<Node, Color>();
+        public static List<Node>[] DoDFS(Graph G)
+        {
+            List<List<Node>> res = new List<List<Node>>();
+            
+           
+            foreach(Node n in G.Nodes)
+            {
+                color.Add(n, Color.White);
+            }
+
+            for (int i = 0; i < G.Nodes.Count; i++)
+            {
+                if(color[G.Nodes[i]] == Color.White)
+                {
+                    DFS(G.Nodes[i]);
+                    res.Add(curpath);
+                    curpath = new List<Node>();
+                }
+            }
+           
+            //
+            return res.ToArray();
+
+
+
+            
+            //
+           
+            
+        }
+        static void DFS(Node n)
+        {
+            color[n] = Color.Gray;
+            curpath.Add(n);
+            foreach (Link l in n.Links)
+            {
+                if (color[l.To] == Color.White)
+                {
+                    DFS(l.To);
+                }
+            }
+            color[n] = Color.Black;
+        }
+
+        public static List<Node>[] StrongConnection(Graph G)
+        {
+            List<List<Node>> res = new List<List<Node>>();
+            Graph H = G.GetReverse();
+            List<Node> f = new List<Node>();
+            List<Node>[] a = Algorithms.DoDFS(H);
+            foreach (List<Node> l in a)
+                f.AddRange(l);
+            color.Clear();
+            foreach (Node n in G.Nodes)
+            {
+                color.Add(n, Color.White);
+            }
+
+            for (int i =f.Count-1; i >= 0; i--)
+            {
+                if (color[G.GetNode(f[i].Name)] == Color.White)
+                {
+                    DFS(G.GetNode(f[i].Name));
+                    res.Add(curpath);
+                    curpath = new List<Node>();
+                }
+            }
+
+            return res.ToArray();
+        }
+
+        public static List<Node>[] BFS(Graph G,Node StartNode = null)
+        {
+            if(StartNode==null)
+                StartNode = G.Nodes[0];
+            //
+            List<Node> Result = new List<Node>();
+            Queue<Node> q = new Queue<Node>();
+            q.Enqueue(StartNode);
+            Dictionary<Node, int> mark = new Dictionary<Node, int>();
+            while(q.Count>0)
+            {
+                Node Cur = q.Dequeue();
+                mark.Add(Cur, 1); // тут можно в Value что нибдь записать
+                Result.Add(Cur);
+                foreach(Link l in Cur.Links)
+                {
+                    if (!mark.ContainsKey(l.To))
+                        q.Enqueue(l.To);
+                }
+            }
+            return new List<Node>[] { Result };
+
+        }
+
+        
+        public static List<Node>[] EulerCycle(Graph G)
+        {
+            Graph G2 = G.Clone() as Graph;
+            List<Node> Result = new List<Node>();
+            Stack<Node> St = new Stack<Node>();
+            St.Push(G2.Nodes[0]);
+            while(St.Count!=0)
+            {
+                Node V = St.Peek();
+                if(V.Links.Count + V.ToMe.Count==0)
+                {
+                    Result.Add(V);
+                    St.Pop();
+                }
+                else
+                {
+                    Link l = V.Links[0];
+                    V.Links.Remove(l);
+                    l.To.ToMe.Remove(l);
+                    St.Push(l.To);
+                    
+                }
+            }
+            return new List<Node>[]  { Result };
+
+        }
     }
 
 

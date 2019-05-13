@@ -50,6 +50,14 @@
             this.label1 = new System.Windows.Forms.Label();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.btn_Left = new System.Windows.Forms.Button();
+            this.btn_Right = new System.Windows.Forms.Button();
+            this.lb_PathNum = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
+            this.button4 = new System.Windows.Forms.Button();
+            this.button5 = new System.Windows.Forms.Button();
             this.ContextNode.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.ContexLink.SuspendLayout();
@@ -214,16 +222,105 @@
             this.openFileDialog1.FileName = "openFileDialog1";
             this.openFileDialog1.Filter = "Файл графа|*.grph";
             // 
-            // Form1
+            // btn_Left
+            // 
+            this.btn_Left.Location = new System.Drawing.Point(369, 0);
+            this.btn_Left.Name = "btn_Left";
+            this.btn_Left.Size = new System.Drawing.Size(25, 23);
+            this.btn_Left.TabIndex = 5;
+            this.btn_Left.Text = "<";
+            this.btn_Left.UseVisualStyleBackColor = true;
+            this.btn_Left.Click += new System.EventHandler(this.btn_Left_Click);
+            // 
+            // btn_Right
+            // 
+            this.btn_Right.Location = new System.Drawing.Point(441, 0);
+            this.btn_Right.Name = "btn_Right";
+            this.btn_Right.Size = new System.Drawing.Size(23, 23);
+            this.btn_Right.TabIndex = 6;
+            this.btn_Right.Text = ">";
+            this.btn_Right.UseVisualStyleBackColor = true;
+            this.btn_Right.Click += new System.EventHandler(this.btn_Right_Click);
+            // 
+            // lb_PathNum
+            // 
+            this.lb_PathNum.AutoSize = true;
+            this.lb_PathNum.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.lb_PathNum.Location = new System.Drawing.Point(411, 5);
+            this.lb_PathNum.Name = "lb_PathNum";
+            this.lb_PathNum.Size = new System.Drawing.Size(13, 13);
+            this.lb_PathNum.TabIndex = 7;
+            this.lb_PathNum.Text = "0";
+            this.lb_PathNum.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(759, 41);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 8;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(759, 70);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.TabIndex = 9;
+            this.button2.Text = "button2";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(759, 99);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(75, 23);
+            this.button3.TabIndex = 10;
+            this.button3.Text = "button3";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(759, 128);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(75, 23);
+            this.button4.TabIndex = 11;
+            this.button4.Text = "button4";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
+            // 
+            // button5
+            // 
+            this.button5.Location = new System.Drawing.Point(759, 157);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(75, 23);
+            this.button5.TabIndex = 12;
+            this.button5.Text = "button5";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
+            // 
+            // GraphForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.ClientSize = new System.Drawing.Size(858, 450);
+            this.Controls.Add(this.button5);
+            this.Controls.Add(this.button4);
+            this.Controls.Add(this.button3);
+            this.Controls.Add(this.button2);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.lb_PathNum);
+            this.Controls.Add(this.btn_Right);
+            this.Controls.Add(this.btn_Left);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
-            this.Name = "Form1";
+            this.Name = "GraphForm";
             this.Text = "GraphViewer3000";
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.Form1_Paint);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseDown);
@@ -261,6 +358,14 @@
         private System.Windows.Forms.ToolStripMenuItem убратьВесаToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem двойнаяСвязьToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem поискПутиToolStripMenuItem;
+        private System.Windows.Forms.Button btn_Left;
+        private System.Windows.Forms.Button btn_Right;
+        private System.Windows.Forms.Label lb_PathNum;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button button5;
     }
 }
 

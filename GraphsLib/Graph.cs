@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GraphsLib
 {
-    public class Graph
+    public class Graph : ICloneable
     {
         /// <summary>
         /// Лист для хранения узлов
@@ -76,6 +76,30 @@ namespace GraphsLib
             else
                 return false;
 
+        }
+
+        public object Clone()
+        {
+            PackedGraph pg = new PackedGraph(this);
+            return pg.UnPack();
+        }
+
+        public Graph GetReverse()
+        {
+            Graph g = (Graph)this.Clone();
+            for(int i=0;i<g.Nodes.Count;i++)
+            {
+                List<Link> temp;
+                temp = g.Nodes[i].Links;
+                g.Nodes[i].Links = g.Nodes[i].ToMe;
+                g.Nodes[i].ToMe = temp;
+                for (int j = 0; j < g.Nodes[i].Links.Count; j++)
+                {
+                    g.Nodes[i].Links[j].Reverse();
+                }
+              
+            }
+            return g;
         }
     }
 }

@@ -77,15 +77,17 @@ namespace GraphsTest
                     switch (PForm.Mode)
                     {
                         case "Дейкстра":
-                            Path = pf.FindPath(n1, n2, DijkstraMode.Default);
+                            Pathes = pf.FindPath(n1, n2, DijkstraMode.Default);
                             break;
                         case "Дейкстра(с двоичной кучей)":
-                            Path = pf.FindPath(n1, n2, DijkstraMode.BinaryHeap);
+                            Pathes = pf.FindPath(n1, n2, DijkstraMode.BinaryHeap);
                             break;
+                            
 
 
                     }
-
+                    pathindex = 0;
+                    Path = Pathes[0];
                     if (Path == null)
                         MessageBox.Show("Нет пути");
                 }
